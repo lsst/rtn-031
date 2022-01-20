@@ -1,1 +1,25 @@
-\section{Data movement} 
+\section{Data movement}
+
+The main question was, It is never fast enough but how slow is Rucio?
+It seems RUCIO may not be suitable for prompt processing.
+Adding the OGA rack in the mix makes one wonder if Rucio belongs at all in the Chile.
+There was talk of a \em{Simple} http post solution, this may not be so trivial- Steve??
+
+Kafka over ActiveMQ for Rucio would mean one technology stack fewer at DFs - we need Kafka for the alerts.
+
+Tuning FTS required for smaller filed 20MB.
+
+How do we ship data back to USDF?
+Intermediaries may need to be transported between DFs for different steps - extra overhead
+
+S3 with Rucio and FT should work as of Rucio 1.24 and FTS.
+Use of 3rd party copy with that - may be solved soon.
+
+\subsection{CernVM FS}
+CVFMS is used at FrDF - elsewhere ? for distribution and keeping sites in sync?
+It is not really good for development, i.e. fast changing code,  but for DRP ops perhaps ?
+Keeping our 3 sites all on the same pipeline version, an alternative to a docker container.
+
+\subsection {Actions}
+Need to start defining RUCIO rules .
+
