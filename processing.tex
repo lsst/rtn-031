@@ -1,1 +1,57 @@
-\section{Processing} 
+\section{Processing}
+
+We would all like more power to process !
+
+Some open questions:
+
+\begin{itemize}
+\item How do we assign workflows to sites (and have the right data there)
+\begin{itemize}
+\item What does a site need to be PanDA ready ? .. short tech note
+\end{itemize}
+
+\item Many questions at USDF
+\begin{itemize}
+\item CRIC and PanDA at CERN
+\item Lots of other tradeoffs to be made
+\end{itemize}
+\item IDF and FrDF  160GB matchCatalogsTract - known will be fixed
+\item Metadata between butler and Rucio is key and not worked out ..
+\item Are we sure the single site model works multi site ..
+\begin{itemize}
+\item Is there another way ?
+\item Central submission is best, right ? YES - central submission of jobs, distributed
+\end{itemize}
+\item Campaign management is still very manual we will need a lot of automation.
+\begin{itemize}
+\item This will run all the jobs at all the sites (International Execution team)
+\item Not sure Jira will scale
+\end{itemize}
+\end{itemize}
+
+\subsection{Quanta}
+Quantum graph generation taking too much memory in RSP pod for DP0.2.
+We need a more robust way to do this (SQuaRE providing larger POD for now).
+
+Quantum graph also gets slow (8 hours).
+There is a issue to provide hints - could be back ported for step 3.
+
+DP0.2 1 quantum in 315 will cause job to fail and not do the remaining quanta.
+Execution team restart these jobs - FrDF need the magic for not rerunning all.
+
+\subsection {Speed}
+It needs to be faster .. DC2 is around 10 nights data  it took 4 days to do step 1.
+we need to scale up a lot to do DRP in for even six months data in four months.
+
+Merging butler 2 hours - even with Tim\'s speedups
+
+Jim Chiang spoke of throughput issues:
+\begin{itemize}
+\item IO is complex/big .. but its not the entire story, something is causing a slow down ..
+\item Building a container with CALIB included - for DRP may actually be a good idea.
+\end{itemize}
+
+\subsection {Agreed action }
+
+Shared repo for BPS yaml files .. \jira{RFC-775} (Jim B)
+
