@@ -1,0 +1,9 @@
+% bibentry template for lsst.bib in https://github.com/lsst/lsst-texmf/blob/main/texmf/bibtex/bib/lsst.bib
+
+@DocuShare{RTN-031,
+   author = { William O'Mullane },
+    title = {Second data facilities workshop findings},
+     year = 2022,
+    month = Jan,
+   handle = {RTN-031},
+      url = {https://rtn-031.lsst.io } }
