@@ -1,8 +1,57 @@
 \section{Introduction}
 
-The second data facilities workshop was held in 2022, Jan 19 and 20.
-A series of presentations and discussions lead to very useful findings and actions.
-See confluence for the slides etc. \url{https://confluence.lsstcorp.org/pages/viewpage.action?pageId=175440708}
+Images from the Rubin Observatory are processed into science ready images and catalogues, using the LSST Stack. Various types of processing are required, almost always involving complex sequences of workflows. For Data Release Processing, we are primarily interested in the production of (usually annual) Data Releases. For Data Releases, processing can logically be considered as consisting of seven stages, each containing many and complex workflows.
 
+The scale of Data Release Processing makes it expensive in terms of infrastructure and time-consuming in terms of computing resources. Because of this, DRP will be distributed between three facilities: the USDF in SLAC, the French DF at CC-IN2P3, and the UK DF at a site or sites to be determined.
+
+The LSST Stack does not address the additional complexities of distributed processing. For example, it assumes input data is readily available to a workflow, and that scheduling of workflows is handled implicitly at the operating-system level.
+
+This means that the LSST Stack cannot naively be used to complete a processing campaign involving multiple facilities, without some additional supporting services. Compared to a single-DF approach, the following additional challenges are envisaged:
+
+\begin{description}
+  
+\item [Software synchronisation] to ensure that each site uses precisely the same processing software, with the same input configurations, involving not just the same versions of the LSST Stack, but also the same (or guaranteed compatible) versions of third-party supporting libraries, tools, and supporting services.
+  
+\item [Distributed campaign management] is required to ensure that the many tasks involved to turn a collection of raw images into a full and complete Data Release is completed in an efficient, reliable, and timely manner. 
+
+\item [Data movement and staging] significant additional data movement is required to stage input files to the relevant Data Facility and receive back outputs into the Data Release archives held at the USDF and in France. This movement needs to happen in a timely manner, even though it is taking place on public Internet capacity with consequent variations in performance and capacity.
+  
+\item [Campaign monitoring] to ensure that each facility progresses as expected through its portion of the DRP campaign, but also to provide contingencies in the event that one or more of the facilities falls behind with processing (maybe because of infrastructure issues or because of unforeseen complexities in image data or DRP).
+
+\item [Data aggregation] the output data produced at each DF needs to be assembled into a consistent Data Release (along with required intermediate products). In particular, a Data Butler instance needs to be created that captures the provenance of the processing campaign, in a way that is indistinguishable from a DRP undertaken at a single facility.
+  
+\item [Data publication] possibly an advantage of distributed DRP, rather than a challenge but, at the end of each DRP campaign, the Data Release (either in part of whole) needs to be distributed to a number (around 10) Data Access Centres, internationally, from where it is made available to the Rubin Science Community.
+
+\item [Authentication and authorisation] despite the heterogeneity of the infrastructure, across the three facilities, it is necessary for DRP staff (for example, from the Verification and Validation team) from across the facilities to contribute to the DRP campaign – e.g., for USDF staff to have seamless access to data products being created in the UK and even to intervene in processing, should the need arise.
+  
+\item [Accounting] the three-site configuration is underpinned by an in-kind agreement which translates contributions to the DRP (in France and the UK) into data rights for the relevant France-based and UK-based science communities. It is therefore likely that the DFs will need to be able to record and present evidence that they have contributed resources in line with the intent of DRP. 
+
+\end{description}
+
+The high-energy physics community has, for many years, relied on distributed computing for large-scale experiments such as LHC Atlas. Further, the technologies they use, at a high level, seem to address many of the added complexities that need to be addressed for a distributed DRP campaign.
+
+Given this, a detailed investigation is underway to better understand the tooling used by HEP and to establish whether it can be used to extend a single-site use of the LSST Stack to mutliple facilities.
+
+In simple terms, the approach is to use the LSST Stack at each facilities, as if it were working in isolation, and then use technology from HEP to ensure that the single-site assumptions in the LSST Stack's design (e.g., that data is readily available when needed) can be satisfied.
+
+At the time of writing, the following HEP technologies have been identified for further consideration:
+
+\begin{description}
+
+\item [Rucio] A data management system from the ATLAS experiment at the LHC, now used widely in particle physics (and possibly SKA). This is a policy driven system for making (multiple) copies of data at any number sites globally, whilst maintain a coherent global catalogue. Sites are registered as a Rucio Storage elements (RSEs).  Typically, data is identified, moved and accessed by a url-like string.
+
+\item [PanDA] A large-scale, distributed workflow orchestration is likely to fulfil many of the requirements of processing campaign management.
+  
+\item [FTS]  The File Transfer Service that takes care of reliable (used in the sense of TCP reliable packet delivery) end-to-end file transfer, including third party file transfer. FTS guarantees a file will be delivered, regardless of any short-term failures in any individual copy.
+
+\item [VOMS] is likely to be able to provide a common authentication/ authorisation platform.
+        
+\item [CVMFS] is likely to be able to automate the distribution and curation of software suites for DRP.
+  
+\item [Supporting HEP services] Various other underlying components to implement what is known as a “Storage Element” (SE). Typical SEs are dCache or xRootD , but may be other things.
+ 
+\end{description}
+
+The second data facilities workshop was held in 2022, Jan 19 and 20. A series of presentations and discussions lead to very useful findings and actions.  See confluence for the slides etc. \url{https://confluence.lsstcorp.org/pages/viewpage.action?pageId=175440708}
 
 This document is logically broken into area which emerged in the workshop and summarizes the discussions and some of the takeaways.

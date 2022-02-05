@@ -1,5 +1,53 @@
 \section{Processing}
 
+\subsection{Overview}
+
+A DRP campaign can be conceptually divided into seven stages, each consisting of many inter-related workflows.
+
+Naively, a workflow is a sequence of LSST Stack operations, reading input data, such as (image) files and database tables, doing some data processing, and produces new files and updated database entries.
+
+Each workflow will only read a tiny fraction of the data that makes up a DRP campagin and, similarly, will only produce a tiny contribution to the DRP final products.
+
+Thus, not all data needs to be replicated at all data facilities on a short timeframe and strategies can be contrived to focus on replicating that subset of data that is required for the workflows assigned to a particular site.
+
+\subsection{Campaign Management}
+
+We assume that a workflow will never span multiple sites. Thus, so long as the required input data (files and database rows) is accessible at a facility, the workflow can be executed there.
+
+The determination of which workflows needs to be processed in which order, and where best to run particular workflows is the responsibility of Campaign Management. Later workflows depend on the specific outputs of earlier workflows, and the schedule of such workflows is dependent on realtime information regarding the progress and success of the campaign. Given this, it is assumed the Campaign Manager can only ever produce a confident short-term schedule of workflows to be completed and that the Campaign Manager may dynamically revise the schedule of workflows in response to topical indicators from telescope operations, data-facility operations, and the actual data that is being produced.
+
+\subsection{Scheduling}
+
+At the time of writing, it is intended that the schedule of workflows defined by the Campaign Manager will be actioned by an HEP technology called PanDA (Production and Distributed Analysis System).
+
+It is anticipated that PanDA will be deployed with a single, central service (deployed at/ near the US DF) scheduling work at all three Data Facilities.
+
+For PanDA to work effectively in the context of DRP, several challenges need to be addressed:
+
+\begin{itemize}
+
+\item We need to set up and test a reliable PanDA environment across the three DFs.
+
+  To this end, we need to define appropriate prerequisites that each DF will need to fulfil in order to reliably and efficiently work scheduled by PanDA.
+
+\item We need a process for efficiently assigning workflows to DFs, aiming to minimize the requirements for data movement, whilst ensuring the campaign can be completed within required timeframe (usually six months from the end of an observing period).
+
+\item We need a way for the Campaign Manager to describe the schedule of workflows to be executed to PanDA, and for the Campaign Manager to be able to adapt that sequence to address topical informaton as the campaign progresses.
+
+\item We need a mechanism to ensure that prerequisite input data for each workflow is available before PanDA attempts to run a workflow.
+
+\item We need a way to capture job data from PanDA (e.g., regarding job success/failure and execution time) into the Campaign Manager to inform downstream workflow assignments.
+  
+\item we need a mechanism to trigger any post-workflow data movement that may be required in advance of downstream workflows or processing steps.
+
+\item ...
+  
+\end{itemize}
+
+%% A key source of information, for a workflow, is the Data Butler. The Data Butler is a critical element of DRP and is a single source of proveneance information for the LSST Stack.
+
+%% One function of the Data Butler is to curate processed information from DRP, as it progresses. Most workflows need only a tiny sample of the data held within the Data Butler and, thus, to avoid the (central) Data Butler becoming a bottleneck when multiple, concurrent workflows are in progress, the specific information required for an individual workflow can be syphoned into a lightweight Execution Butler, which resides locally to the workflow. The outputs of the workflow are also captured in the Execution Butler and then merged into the master Data Butler at a later stage, though soon enough to allow subsequent workflow steps to proceed.
+
 We would all like more power to process !
 
 Some open questions:
